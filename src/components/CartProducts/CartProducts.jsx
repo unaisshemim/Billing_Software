@@ -3,8 +3,10 @@ import React, {useState} from 'react';
 import {Card, Button, Input} from '@rneui/themed';
 import Modal from 'react-native-modal';
 import Edit from 'react-native-vector-icons/AntDesign';
+import { useSelector } from 'react-redux';
 
 const CartProducts = () => {
+  const [cart, setCart] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [isModalVisible, setModalVisible] = useState(false);
   const [product, setProduct] = useState({
@@ -12,7 +14,6 @@ const CartProducts = () => {
     prize: '',
     quantity: quantity,
   });
-  const [cart, setCart] = useState([]);
   const [editingIndex, setEditingIndex] = useState(null);
   const isAddButtonDisabled = !product.productName || !product.prize;
 
@@ -22,6 +23,7 @@ const CartProducts = () => {
       [name]: value,
     });
   };
+
 
   const handleQuantity = (changeAmount, index) => {
     const updatedCart = [...cart];
@@ -95,7 +97,12 @@ const CartProducts = () => {
     updatedCart.splice(index, 1);
     setCart(updatedCart);
   };
-  console.log(cart);
+
+
+
+  const ReduxCart=useSelector(state=>state.cartReducer.cart)
+  console.log(ReduxCart)
+
   return (
     <View style={styles.cartContainer}>
       {cart?.map((item, index) => {

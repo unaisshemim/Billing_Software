@@ -5,6 +5,7 @@ import { Settings, Chart, Profile, History} from '../../screens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeNav from '../../navigation/Home/HomeNav';
 
+
 const BottomTab = () => {
   const Tab = createBottomTabNavigator();
 

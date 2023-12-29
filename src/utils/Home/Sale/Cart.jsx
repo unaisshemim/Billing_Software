@@ -8,7 +8,6 @@ const navigation = useNavigation();
   return (
     <Wrapper>
         <View>
- 
             <Button title="Checkout" onPress={()=>{navigation.push('Checkout')}}/>
         </View>
     </Wrapper>
