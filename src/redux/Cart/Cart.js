@@ -13,14 +13,14 @@ export const cartSlice = createSlice({
       // immutable state based off those changes
       state.cart = action.payload
     },
-    remove: (state) => {
-      state=[]
+    reset: (state) => {
+      state.cart=[]
     },
   
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { add, remove } = cartSlice.actions
+export const { add, reset } = cartSlice.actions
 
 export default cartSlice.reducer

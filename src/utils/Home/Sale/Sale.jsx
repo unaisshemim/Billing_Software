@@ -5,6 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import Wrapper from '../../../components/Wrapper/Wrapper';
 import CartProducts from '../../../components/CartProducts/CartProducts';
 import {ScrollView} from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Sales = () => {
   const navigation = useNavigation();

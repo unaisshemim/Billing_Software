@@ -1,12 +1,17 @@
 import {View, Text, StyleSheet} from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Card, Button, Input} from '@rneui/themed';
 import Modal from 'react-native-modal';
 import Edit from 'react-native-vector-icons/AntDesign';
-import { useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {add} from '../../redux/Cart/Cart';
 
+import {Select} from 'native-base';
 const CartProducts = () => {
-  const [cart, setCart] = useState([]);
+  const dispatch = useDispatch();
+  const initialReduxCart = useSelector(state => state.cart.cart);
+  const [cart, setCart] = useState(initialReduxCart);
+  console.log(cart);
   const [quantity, setQuantity] = useState(1);
   const [isModalVisible, setModalVisible] = useState(false);
   const [product, setProduct] = useState({
@@ -16,6 +21,7 @@ const CartProducts = () => {
   });
   const [editingIndex, setEditingIndex] = useState(null);
   const isAddButtonDisabled = !product.productName || !product.prize;
+  const [type, setType] = useState('');
 
   const handleProductChange = (name, value) => {
     setProduct({
@@ -23,7 +29,6 @@ const CartProducts = () => {
       [name]: value,
     });
   };
-
 
   const handleQuantity = (changeAmount, index) => {
     const updatedCart = [...cart];
@@ -34,14 +39,14 @@ const CartProducts = () => {
 
       // Ensure quantity doesn't go below 1
       if (newQuantity >= 1) {
-        const originalPrize = parseFloat(updatedCart[index].prize) / updatedCart[index].quantity;
+        const originalPrize =
+          parseFloat(updatedCart[index].prize) / updatedCart[index].quantity;
         const newPrize = originalPrize * newQuantity;
         updatedCart[index] = {
           ...updatedCart[index],
           quantity: newQuantity,
-          prize: newPrize
+          prize: newPrize,
         };
-
 
         setCart(updatedCart);
       }
@@ -75,6 +80,7 @@ const CartProducts = () => {
         productName: '',
         prize: '',
         quantity: 1,
+        type: 'Sale',
       });
     }
     toggleModal();
@@ -98,10 +104,16 @@ const CartProducts = () => {
     setCart(updatedCart);
   };
 
+  useEffect(() => {
+    // Dispatch the updated cart to Redux whenever the local 'cart' state changes
 
+    dispatch(add(cart));
+  }, [cart]);
 
-  const ReduxCart=useSelector(state=>state.cartReducer.cart)
-  console.log(ReduxCart)
+  useEffect(() => {
+    // Update the local 'cart' state whenever 'initialReduxCart' changes
+    setCart(initialReduxCart);
+  }, [initialReduxCart]);
 
   return (
     <View style={styles.cartContainer}>
@@ -197,6 +209,28 @@ const CartProducts = () => {
                 }
                 errorStyle={{color: 'red'}}
               />
+              <View>
+                <Select
+                  selectedValue={type}
+                  minWidth="200"
+                  accessibilityLabel="Choose Service"
+                  placeholder="Choose Service"
+                  _selectedItem={{
+                    bg: 'teal.600',
+                    endIcon: <CheckIcon size="5" />,
+                  }}
+                  mt={1}
+                  onValueChange={itemValue => setType(itemValue)}>
+                  <Select.Item label="UX Research" value="ux" />
+                  <Select.Item label="Web Development" value="web" />
+                  <Select.Item
+                    label="Cross Platform Development"
+                    value="cross"
+                  />
+                  <Select.Item label="UI Designing" value="ui" />
+                  <Select.Item label="Backend Development" value="backend" />
+                </Select>
+              </View>
             </View>
             <View
               style={{

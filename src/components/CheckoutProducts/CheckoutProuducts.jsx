@@ -1,19 +1,14 @@
 import {View, Text, StyleSheet} from 'react-native';
 import React, {useState} from 'react';
-import {Card, Button, Input} from '@rneui/themed';
-import Modal from 'react-native-modal';
-import Edit from 'react-native-vector-icons/AntDesign';
+import {Card} from '@rneui/themed';
+
+import { useSelector } from 'react-redux';
 
 const CheckoutProducts = () => {
-  const [quantity, setQuantity] = useState(1);
-  const [cart, setCart] = useState([
-    {productName: 'Mango', prize: 100, quantity: 1},
-    {productName: 'Mango', prize: 100, quantity: 1},
-    {productName: 'Mango', prize: 100, quantity: 1},
-    {productName: 'Mango', prize: 100, quantity: 1},
-    {productName: 'Mango', prize: 100, quantity: 1},
-    {productName: 'Mango', prize: 100, quantity: 1},
-  ]);
+ 
+
+  const cart = useSelector(state => state.cart.cart);
+
 
   return (
     <View style={styles.cartContainer}>
@@ -28,7 +23,6 @@ const CheckoutProducts = () => {
                 <Text>{item.quantity}</Text>
               </View>
             </View>
-          
           </Card>
         );
       })}

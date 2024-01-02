@@ -18,12 +18,7 @@ const Actions = () => {
       icon: 'sale',
       nav: 'Sales',
     },
-    {
-      heading: 'Service',
-      subHeading: 'Machine and Stove',
-      icon: 'wrench',
-      nav: 'Service',
-    },
+   
   ];
 
   const navigation = useNavigation();
